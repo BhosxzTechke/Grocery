@@ -1,0 +1,2 @@
+LicenseKey=ABCD1234
+Expiration=2025-03-30
