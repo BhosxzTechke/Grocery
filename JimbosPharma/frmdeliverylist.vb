@@ -342,9 +342,6 @@ Public Class frmdeliverylist
 
 
 
-
-
-
     Private Sub UpdateInventory(productID As Integer, quantity As Integer, expirationDate As Date, reorderLevel As Integer, deliveryID As Integer)
         Try
             Dim query As String

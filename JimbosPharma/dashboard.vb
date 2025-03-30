@@ -393,7 +393,7 @@ Public Class dashboard
 
     End Sub
 
-    Private Sub btnsettings_Click(sender As Object, e As EventArgs) Handles btnsettings.Click
+    Private Sub btnsettings_Click(sender As Object, e As EventArgs) Handles btnsettings.Click, Button4.Click
         ' Calculate the position to show the context menu on the right side
         Dim x As Integer = btnsettings.Width
         Dim y As Integer = btnsettings.Height / 2
@@ -407,6 +407,23 @@ Public Class dashboard
             Panel3.Controls.Add(frmdeliverylist)
             .BringToFront()
             .Show()
+        End With
+    End Sub
+
+    Private Sub Button5_Click_1(sender As Object, e As EventArgs) Handles Button5.Click
+        With frmdeliverylist
+            .Opacity = 0
+            .TopLevel = False
+            Panel3.Controls.Add(frmdeliverylist)
+            .BringToFront()
+            .Show()
+        End With
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        With frminventorylist
+            .ShowDialog()
+
         End With
     End Sub
 End Class

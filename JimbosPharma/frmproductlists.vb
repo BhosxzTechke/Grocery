@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Drawing
 Imports System.IO
+Imports JimbosPharma.loginform
+Imports Guna.UI2.WinForms
 
 
 
@@ -14,13 +16,15 @@ Public Class frmproductlists
 
     End Sub
 
-                    'dropdownunit(frmproduct) ' ✅ Load the dropdown first
+    'dropdownunit(frmproduct) ' ✅ Load the dropdown first
+
 
     Private Sub dataprod_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dataprod.CellContentClick
         If e.RowIndex < 0 Then Return
 
         Dim colname As String = dataprod.Columns(e.ColumnIndex).Name
 
+        ' ✅ Edit Product
         If colname = "Edit" Then
             ' ✅ Close existing instance if open
             For Each frm As Form In Application.OpenForms
@@ -30,29 +34,19 @@ Public Class frmproductlists
                 End If
             Next
 
-            ' ✅ Open new instance of frmaddproduct
+            ' ✅ Open new instance of frmproduct
             Dim productForm As New frmproduct()
-
-            ' ✅ Set Editing Mode to prevent clearing fields
-            productForm.isEditing = True  ' 🔥 Add this line
+            productForm.isEditing = True  ' 🔥 Editing mode
 
             ' ✅ Assign values safely
             Dim catIdValue As Object = dataprod.Rows(e.RowIndex).Cells("catID").Value
-            If catIdValue IsNot Nothing Then
-                productForm.categorycbx.SelectedValue = catIdValue
-            Else
-                productForm.categorycbx.SelectedIndex = -1 ' Reset if no value
-            End If
+            productForm.categorycbx.SelectedValue = If(catIdValue IsNot Nothing, catIdValue, -1)
 
-            ' ✅ Assign values safely
             Dim unitIDValue As Object = dataprod.Rows(e.RowIndex).Cells("UnitID").Value
-            If unitIDValue IsNot Nothing Then
-                productForm.unitcbx.SelectedValue = unitIDValue
-            Else
-                productForm.unitcbx.SelectedIndex = -1 ' Reset if no value
-            End If
+            productForm.unitcbx.SelectedValue = If(unitIDValue IsNot Nothing, unitIDValue, -1)
 
             ' ✅ Other fields
+            productForm.lblid.Text = dataprod.Rows(e.RowIndex).Cells("Column2").Value.ToString()
             productForm.txtbarcode.Text = dataprod.Rows(e.RowIndex).Cells("Barcode").Value.ToString()
             productForm.itemdes.Text = dataprod.Rows(e.RowIndex).Cells("Description").Value.ToString()
             productForm.txtcost.Text = dataprod.Rows(e.RowIndex).Cells("CostPrice").Value.ToString()
@@ -61,8 +55,7 @@ Public Class frmproductlists
             ' ✅ Load Image safely
             Try
                 If Not IsDBNull(dataprod.Rows(e.RowIndex).Cells("ProductImage").Value) Then
-                    Dim img As Image = CType(dataprod.Rows(e.RowIndex).Cells("ProductImage").Value, Image)
-                    productForm.PictureBox1.Image = img
+                    productForm.PictureBox1.Image = CType(dataprod.Rows(e.RowIndex).Cells("ProductImage").Value, Image)
                 Else
                     productForm.PictureBox1.Image = Nothing
                 End If
@@ -77,22 +70,92 @@ Public Class frmproductlists
             ' ✅ Open as Modal Dialog
             productForm.ShowDialog()
 
-
         ElseIf colname = "Delete" Then
-            If MsgBox("Are you sure you want to delete this record?", vbYesNo + vbQuestion) = vbYes Then
-                con.Open()
-                cmd = New SqlCommand("DELETE FROM tblproduct WHERE barcode = @barcode", con)
-                cmd.Parameters.AddWithValue("@barcode", dataprod.Rows(e.RowIndex).Cells("Barcode").Value.ToString())
-                cmd.ExecuteNonQuery()
-                con.Close()
+            ' ✅ Configure Guna2MessageDialog for delete confirmation
+            Guna2MessageDialog1.Parent = Me ' 🔥 Ensures centering
+            Guna2MessageDialog1.Buttons = MessageDialogButtons.YesNo
+            Guna2MessageDialog1.Icon = MessageDialogIcon.Question
+            Guna2MessageDialog1.Style = MessageDialogStyle.Dark
+            Guna2MessageDialog1.Caption = "Confirm Deletion"
+            Guna2MessageDialog1.Text = "Are you sure you want to delete this record?"
 
-                MsgBox("Record has been successfully deleted.", vbInformation)
-                prodrecord() ' ✅ Refresh DataGridView
+            ' ✅ Show the confirmation dialog
+            If Guna2MessageDialog1.Show() = DialogResult.Yes Then
+                Dim productID As String = dataprod.Rows(e.RowIndex).Cells("Column2").Value.ToString()
+
+                ' ✅ Fetch the old product details before deletion
+                Dim oldValue As String = ""
+                Try
+                    con.Open()
+                    Dim fetchQuery As String = "SELECT barcode, item_des, price, costprice FROM tblproduct WHERE id = @id"
+                    Dim fetchCmd As New SqlCommand(fetchQuery, con)
+                    fetchCmd.Parameters.AddWithValue("@id", productID) ' 🔥 Fixed parameter name
+                    Dim reader As SqlDataReader = fetchCmd.ExecuteReader()
+
+                    If reader.Read() Then
+                        oldValue = "ID: " & productID & _
+                                   ", Barcode: " & reader("barcode").ToString() & _
+                                   ", Description: " & reader("item_des").ToString() & _
+                                   ", Price: " & reader("price").ToString() & _
+                                   ", Cost Price: " & reader("costprice").ToString()
+                    End If
+                    reader.Close()
+                Catch ex As Exception
+                    MessageBox.Show("Error fetching old data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Finally
+                    con.Close()
+                End Try
+
+                ' ✅ Insert audit log for delete action
+                Try
+                    con.Open()
+                    Dim auditQuery As String = "INSERT INTO AuditLog (UserID, Action, TableName, RecordID, OldValue, NewValue, Timestamp) " & _
+                                               "VALUES (@UserID, @Action, @TableName, @RecordID, @OldValue, @NewValue, GETDATE())"
+                    Dim auditCmd As New SqlCommand(auditQuery, con)
+                    auditCmd.Parameters.AddWithValue("@UserID", GlobalUser.UserId)
+                    auditCmd.Parameters.AddWithValue("@Action", "DELETE")
+                    auditCmd.Parameters.AddWithValue("@TableName", "tblproduct")
+                    auditCmd.Parameters.AddWithValue("@RecordID", productID)
+                    auditCmd.Parameters.AddWithValue("@OldValue", oldValue)
+                    auditCmd.Parameters.AddWithValue("@NewValue", "Record Deleted")
+                    auditCmd.ExecuteNonQuery()
+                Catch ex As Exception
+                    MessageBox.Show("Error logging audit: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Finally
+                    con.Close()
+                End Try
+
+                ' ✅ Delete the product
+                Try
+                    con.Open()
+                    Dim deleteCmd As New SqlCommand("DELETE FROM tblproduct WHERE id = @id", con)
+                    deleteCmd.Parameters.AddWithValue("@id", productID)
+                    deleteCmd.ExecuteNonQuery()
+                    con.Close()
+
+                    ' ✅ Configure Guna2MessageDialog for success message
+                    Guna2MessageDialog1.Parent = Me ' 🔥 Ensures centering
+                    Guna2MessageDialog1.Buttons = MessageDialogButtons.OK
+                    Guna2MessageDialog1.Icon = MessageDialogIcon.Information
+                    Guna2MessageDialog1.Style = MessageDialogStyle.Dark
+                    Guna2MessageDialog1.Caption = "Deleted Successfully"
+                    Guna2MessageDialog1.Text = "The product has been successfully deleted."
+
+                    ' ✅ Show success dialog
+                    Guna2MessageDialog1.Show()
+
+                    ' ✅ Refresh DataGridView
+                    prodrecord()
+                Catch ex As Exception
+                    MessageBox.Show("Error deleting product: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Finally
+                    con.Close()
+                End Try
             End If
         End If
-
-
     End Sub
+
+
 
     Sub prodrecord()
         Dim i As Integer = 0

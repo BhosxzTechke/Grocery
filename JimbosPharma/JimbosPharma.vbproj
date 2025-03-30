@@ -129,6 +129,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditModule.Designer.vb">
+      <DependentUpon>AuditModule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AuditModule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuditModules.vb" />
     <Compile Include="AutoSuggestmod.vb" />
     <Compile Include="barcodepraactice.Designer.vb">
       <DependentUpon>barcodepraactice.vb</DependentUpon>
@@ -142,10 +149,10 @@
     <Compile Include="barcodepractice.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="cashier.Designer.vb">
+    <Compile Include="POS\cashier.Designer.vb">
       <DependentUpon>cashier.vb</DependentUpon>
     </Compile>
-    <Compile Include="cashier.vb">
+    <Compile Include="POS\cashier.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DataGridViewCalendarColumn.vb" />
@@ -178,18 +185,6 @@
       <DependentUpon>frmaddproduct.vb</DependentUpon>
     </Compile>
     <Compile Include="frmaddproduct.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmbrand.Designer.vb">
-      <DependentUpon>frmbrand.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmbrand.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmbrandlist.Designer.vb">
-      <DependentUpon>frmbrandlist.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmbrandlist.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmbrowsedelivery.Designer.vb">
@@ -229,10 +224,10 @@
     <Compile Include="frmchangepass.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmdailysales.Designer.vb">
+    <Compile Include="POS\frmdailysales.Designer.vb">
       <DependentUpon>frmdailysales.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmdailysales.vb">
+    <Compile Include="POS\frmdailysales.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmdashboard.Designer.vb">
@@ -253,10 +248,10 @@
     <Compile Include="frmdiscount.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmdiscountcashier.Designer.vb">
+    <Compile Include="POS\frmdiscountcashier.Designer.vb">
       <DependentUpon>frmdiscountcashier.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmdiscountcashier.vb">
+    <Compile Include="POS\frmdiscountcashier.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmdiscountmodif.Designer.vb">
@@ -265,58 +260,16 @@
     <Compile Include="frmdiscountmodif.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmdosage.Designer.vb">
-      <DependentUpon>frmdosage.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmdosage.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmdosagelist.Designer.vb">
-      <DependentUpon>frmdosagelist.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmdosagelist.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmformulationlist.Designer.vb">
-      <DependentUpon>frmformulationlist.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmformulationlist.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmformulation.Designer.vb">
-      <DependentUpon>frmformulation.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmformulation.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmgeneric.Designer.vb">
-      <DependentUpon>frmgeneric.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmgeneric.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmgenericlist.Designer.vb">
-      <DependentUpon>frmgenericlist.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmgenericlist.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmgenerikalist.Designer.vb">
-      <DependentUpon>frmgenerikalist.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmgenerikalist.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frminventorylist.Designer.vb">
+    <Compile Include="INVENTORY\frminventorylist.Designer.vb">
       <DependentUpon>frminventorylist.vb</DependentUpon>
     </Compile>
-    <Compile Include="frminventorylist.vb">
+    <Compile Include="INVENTORY\frminventorylist.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmlock.Designer.vb">
+    <Compile Include="ProdMaintenance\frmlock.Designer.vb">
       <DependentUpon>frmlock.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmlock.vb">
+    <Compile Include="ProdMaintenance\frmlock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmmaintenance.Designer.vb">
@@ -337,10 +290,10 @@
     <Compile Include="frmproduct.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmproductinquiry.Designer.vb">
+    <Compile Include="POS\frmproductinquiry.Designer.vb">
       <DependentUpon>frmproductinquiry.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmproductinquiry.vb">
+    <Compile Include="POS\frmproductinquiry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmproductlists.Designer.vb">
@@ -349,10 +302,10 @@
     <Compile Include="frmproductlists.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmqty.Designer.vb">
+    <Compile Include="POS\frmqty.Designer.vb">
       <DependentUpon>frmqty.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmqty.vb">
+    <Compile Include="POS\frmqty.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmrecords.Designer.vb">
@@ -379,10 +332,10 @@
     <Compile Include="frmSalesReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmsettle.Designer.vb">
+    <Compile Include="POS\frmsettle.Designer.vb">
       <DependentUpon>frmsettle.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmsettle.vb">
+    <Compile Include="POS\frmsettle.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmstaffboard.Designer.vb">
@@ -507,13 +460,16 @@
     <Compile Include="user.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AuditModule.resx">
+      <DependentUpon>AuditModule.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="barcodepraactice.resx">
       <DependentUpon>barcodepraactice.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="barcodepractice.resx">
       <DependentUpon>barcodepractice.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="cashier.resx">
+    <EmbeddedResource Include="POS\cashier.resx">
       <DependentUpon>cashier.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmadddelivery.resx">
@@ -521,12 +477,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmaddproduct.resx">
       <DependentUpon>frmaddproduct.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmbrand.resx">
-      <DependentUpon>frmbrand.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmbrandlist.resx">
-      <DependentUpon>frmbrandlist.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmbrowsedelivery.resx">
       <DependentUpon>frmbrowsedelivery.vb</DependentUpon>
@@ -546,7 +496,7 @@
     <EmbeddedResource Include="frmchangepass.resx">
       <DependentUpon>frmchangepass.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmdailysales.resx">
+    <EmbeddedResource Include="POS\frmdailysales.resx">
       <DependentUpon>frmdailysales.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmdashboard.resx">
@@ -558,37 +508,16 @@
     <EmbeddedResource Include="frmdiscount.resx">
       <DependentUpon>frmdiscount.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmdiscountcashier.resx">
+    <EmbeddedResource Include="POS\frmdiscountcashier.resx">
       <DependentUpon>frmdiscountcashier.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmdiscountmodif.resx">
       <DependentUpon>frmdiscountmodif.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmdosage.resx">
-      <DependentUpon>frmdosage.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmdosagelist.resx">
-      <DependentUpon>frmdosagelist.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmformulationlist.resx">
-      <DependentUpon>frmformulationlist.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmformulation.resx">
-      <DependentUpon>frmformulation.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmgeneric.resx">
-      <DependentUpon>frmgeneric.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmgenericlist.resx">
-      <DependentUpon>frmgenericlist.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmgenerikalist.resx">
-      <DependentUpon>frmgenerikalist.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frminventorylist.resx">
+    <EmbeddedResource Include="INVENTORY\frminventorylist.resx">
       <DependentUpon>frminventorylist.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmlock.resx">
+    <EmbeddedResource Include="ProdMaintenance\frmlock.resx">
       <DependentUpon>frmlock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmmaintenance.resx">
@@ -600,13 +529,13 @@
     <EmbeddedResource Include="frmproduct.resx">
       <DependentUpon>frmproduct.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmproductinquiry.resx">
+    <EmbeddedResource Include="POS\frmproductinquiry.resx">
       <DependentUpon>frmproductinquiry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmproductlists.resx">
       <DependentUpon>frmproductlists.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmqty.resx">
+    <EmbeddedResource Include="POS\frmqty.resx">
       <DependentUpon>frmqty.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmrecords.resx">
@@ -621,7 +550,7 @@
     <EmbeddedResource Include="frmSalesReport.resx">
       <DependentUpon>frmSalesReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmsettle.resx">
+    <EmbeddedResource Include="POS\frmsettle.resx">
       <DependentUpon>frmsettle.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmstaffboard.resx">
@@ -814,6 +743,7 @@
     <None Include="Resources\Image1.bmp" />
     <Content Include="Resources\Image1.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

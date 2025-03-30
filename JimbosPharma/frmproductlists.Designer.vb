@@ -31,17 +31,7 @@ Partial Class frmproductlists
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmproductlists))
         Me.Guna2BorderlessForm1 = New Guna.UI2.WinForms.Guna2BorderlessForm(Me.components)
         Me.dataprod = New Guna.UI2.WinForms.Guna2DataGridView()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ProductImage = New System.Windows.Forms.DataGridViewImageColumn()
-        Me.Barcode = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Description = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CatID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.UnitID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Unit = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CostPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SalesPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Edit = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.Delete = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.btnew = New System.Windows.Forms.Button()
@@ -49,6 +39,7 @@ Partial Class frmproductlists
         Me.rc1 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Guna2MessageDialog1 = New Guna.UI2.WinForms.Guna2MessageDialog()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -59,6 +50,16 @@ Partial Class frmproductlists
         Me.DataGridViewTextBoxColumn8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Barcode = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Description = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CatID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.UnitID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Unit = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CostPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SalesPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.dataprod, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
@@ -131,95 +132,12 @@ Partial Class frmproductlists
         Me.dataprod.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(239, Byte), Integer), CType(CType(241, Byte), Integer), CType(CType(243, Byte), Integer))
         Me.dataprod.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.Black
         '
-        'Column1
-        '
-        Me.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Column1.DividerWidth = 1
-        Me.Column1.HeaderText = "#                "
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 74
-        '
-        'Column2
-        '
-        Me.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.Column2.DividerWidth = 1
-        Me.Column2.HeaderText = "ID"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Visible = False
-        Me.Column2.Width = 120
-        '
         'ProductImage
         '
         Me.ProductImage.HeaderText = ""
         Me.ProductImage.Name = "ProductImage"
         Me.ProductImage.ReadOnly = True
         Me.ProductImage.Width = 72
-        '
-        'Barcode
-        '
-        Me.Barcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.Barcode.HeaderText = "Barcode"
-        Me.Barcode.Name = "Barcode"
-        Me.Barcode.ReadOnly = True
-        Me.Barcode.Width = 200
-        '
-        'Description
-        '
-        Me.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.Description.HeaderText = "Item Description"
-        Me.Description.Name = "Description"
-        Me.Description.ReadOnly = True
-        Me.Description.Width = 350
-        '
-        'CatID
-        '
-        Me.CatID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.CatID.DividerWidth = 1
-        Me.CatID.HeaderText = "CategoryID"
-        Me.CatID.Name = "CatID"
-        Me.CatID.ReadOnly = True
-        Me.CatID.Visible = False
-        Me.CatID.Width = 200
-        '
-        'Column3
-        '
-        Me.Column3.HeaderText = "Category"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Width = 73
-        '
-        'UnitID
-        '
-        Me.UnitID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.UnitID.HeaderText = "UnitID"
-        Me.UnitID.Name = "UnitID"
-        Me.UnitID.ReadOnly = True
-        Me.UnitID.Visible = False
-        Me.UnitID.Width = 200
-        '
-        'Unit
-        '
-        Me.Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.Unit.HeaderText = "Unit"
-        Me.Unit.Name = "Unit"
-        Me.Unit.ReadOnly = True
-        Me.Unit.Width = 200
-        '
-        'CostPrice
-        '
-        Me.CostPrice.HeaderText = "Cost Price"
-        Me.CostPrice.Name = "CostPrice"
-        Me.CostPrice.ReadOnly = True
-        Me.CostPrice.Width = 72
-        '
-        'SalesPrice
-        '
-        Me.SalesPrice.HeaderText = "Sales Price"
-        Me.SalesPrice.Name = "SalesPrice"
-        Me.SalesPrice.ReadOnly = True
-        Me.SalesPrice.Width = 72
         '
         'Edit
         '
@@ -327,6 +245,15 @@ Partial Class frmproductlists
         Me.Panel2.Size = New System.Drawing.Size(1264, 601)
         Me.Panel2.TabIndex = 38
         '
+        'Guna2MessageDialog1
+        '
+        Me.Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.YesNo
+        Me.Guna2MessageDialog1.Caption = Nothing
+        Me.Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.None
+        Me.Guna2MessageDialog1.Parent = Nothing
+        Me.Guna2MessageDialog1.Style = Guna.UI2.WinForms.MessageDialogStyle.[Default]
+        Me.Guna2MessageDialog1.Text = Nothing
+        '
         'DataGridViewTextBoxColumn1
         '
         Me.DataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
@@ -334,6 +261,7 @@ Partial Class frmproductlists
         Me.DataGridViewTextBoxColumn1.HeaderText = "#                "
         Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
         Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DataGridViewTextBoxColumn1.Width = 74
         '
         'DataGridViewTextBoxColumn2
         '
@@ -343,6 +271,7 @@ Partial Class frmproductlists
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
         Me.DataGridViewTextBoxColumn2.ReadOnly = True
         Me.DataGridViewTextBoxColumn2.Visible = False
+        Me.DataGridViewTextBoxColumn2.Width = 120
         '
         'DataGridViewTextBoxColumn3
         '
@@ -370,6 +299,7 @@ Partial Class frmproductlists
         Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
         Me.DataGridViewTextBoxColumn5.ReadOnly = True
         Me.DataGridViewTextBoxColumn5.Visible = False
+        Me.DataGridViewTextBoxColumn5.Width = 200
         '
         'DataGridViewTextBoxColumn6
         '
@@ -378,6 +308,7 @@ Partial Class frmproductlists
         Me.DataGridViewTextBoxColumn6.HeaderText = "Generic Name"
         Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
         Me.DataGridViewTextBoxColumn6.ReadOnly = True
+        Me.DataGridViewTextBoxColumn6.Width = 73
         '
         'DataGridViewTextBoxColumn7
         '
@@ -403,6 +334,7 @@ Partial Class frmproductlists
         Me.DataGridViewTextBoxColumn9.HeaderText = "Dosage"
         Me.DataGridViewTextBoxColumn9.Name = "DataGridViewTextBoxColumn9"
         Me.DataGridViewTextBoxColumn9.ReadOnly = True
+        Me.DataGridViewTextBoxColumn9.Width = 72
         '
         'DataGridViewTextBoxColumn10
         '
@@ -411,6 +343,89 @@ Partial Class frmproductlists
         Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
         Me.DataGridViewTextBoxColumn10.ReadOnly = True
         Me.DataGridViewTextBoxColumn10.Width = 61
+        '
+        'Column1
+        '
+        Me.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Column1.DividerWidth = 1
+        Me.Column1.HeaderText = "#                "
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 74
+        '
+        'Column2
+        '
+        Me.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.Column2.DividerWidth = 1
+        Me.Column2.HeaderText = "ID"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Visible = False
+        Me.Column2.Width = 120
+        '
+        'Barcode
+        '
+        Me.Barcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.Barcode.HeaderText = "Barcode"
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.ReadOnly = True
+        Me.Barcode.Width = 200
+        '
+        'Description
+        '
+        Me.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.Description.HeaderText = "Item Description"
+        Me.Description.Name = "Description"
+        Me.Description.ReadOnly = True
+        Me.Description.Width = 350
+        '
+        'CatID
+        '
+        Me.CatID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.CatID.DividerWidth = 1
+        Me.CatID.HeaderText = "CategoryID"
+        Me.CatID.Name = "CatID"
+        Me.CatID.ReadOnly = True
+        Me.CatID.Visible = False
+        Me.CatID.Width = 200
+        '
+        'Column3
+        '
+        Me.Column3.HeaderText = "Category"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Width = 73
+        '
+        'UnitID
+        '
+        Me.UnitID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.UnitID.HeaderText = "UnitID"
+        Me.UnitID.Name = "UnitID"
+        Me.UnitID.ReadOnly = True
+        Me.UnitID.Visible = False
+        Me.UnitID.Width = 200
+        '
+        'Unit
+        '
+        Me.Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.Unit.HeaderText = "Unit"
+        Me.Unit.Name = "Unit"
+        Me.Unit.ReadOnly = True
+        Me.Unit.Width = 200
+        '
+        'CostPrice
+        '
+        Me.CostPrice.HeaderText = "Cost Price"
+        Me.CostPrice.Name = "CostPrice"
+        Me.CostPrice.ReadOnly = True
+        Me.CostPrice.Width = 72
+        '
+        'SalesPrice
+        '
+        Me.SalesPrice.HeaderText = "Sales Price"
+        Me.SalesPrice.Name = "SalesPrice"
+        Me.SalesPrice.ReadOnly = True
+        Me.SalesPrice.Width = 72
         '
         'DataGridViewTextBoxColumn11
         '
@@ -471,4 +486,5 @@ Partial Class frmproductlists
     Friend WithEvents SalesPrice As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Edit As System.Windows.Forms.DataGridViewButtonColumn
     Friend WithEvents Delete As System.Windows.Forms.DataGridViewButtonColumn
+    Friend WithEvents Guna2MessageDialog1 As Guna.UI2.WinForms.Guna2MessageDialog
 End Class

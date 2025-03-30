@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports MessagingToolkit.Barcode
+Imports JimbosPharma.loginform
 
 
 Public Class frmproduct
@@ -79,7 +80,7 @@ Public Class frmproduct
             con.Close()
         End Try
     End Function
-    Private Sub btnupdate_Click(sender As Object, e As EventArgs) Handles btnupdate.Click
+Private Sub btnupdate_Click(sender As Object, e As EventArgs) Handles btnupdate.Click
         Try
             ' Confirm Update Action using Guna2MessageDialog
             Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Question
@@ -90,7 +91,7 @@ Public Class frmproduct
             Dim result As DialogResult = Guna2MessageDialog1.Show()
             If result = DialogResult.No Then Return
 
-            ' Check if sales and cost values are numeric
+            ' Validate numeric fields
             If Not IsNumeric(txtsales.Text) Or Not IsNumeric(txtcost.Text) Then
                 Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Warning
                 Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK
@@ -99,11 +100,9 @@ Public Class frmproduct
                 Guna2MessageDialog1.Show()
                 Return
             End If
-
-            ' Check if required fields are not empty
             If Walanglaman(txtbarcode) OrElse Walanglaman(itemdes) OrElse Walanglaman(txtsales) Then Return
 
-            ' Validate barcode length (must be 13 digits)
+            ' Validate barcode format
             If txtbarcode.Text.Length <> 13 OrElse Not IsNumeric(txtbarcode.Text) Then
                 Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Warning
                 Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK
@@ -112,6 +111,23 @@ Public Class frmproduct
                 Guna2MessageDialog1.Show()
                 Return
             End If
+
+            ' Open connection before executing queries
+            con.Open()
+
+            ' Fetch old product details before updating
+            Dim oldValue As String = ""
+            Dim oldQuery As String = "SELECT barcode, item_des, price, costprice FROM tblproduct WHERE id=@id"
+            Dim oldCmd As New SqlClient.SqlCommand(oldQuery, con)
+            oldCmd.Parameters.AddWithValue("@id", lblid.Text)
+            Dim oldReader As SqlClient.SqlDataReader = oldCmd.ExecuteReader()
+            If oldReader.Read() Then
+                oldValue = "Barcode: " & oldReader("barcode").ToString() & ", " &
+                           "Description: " & oldReader("item_des").ToString() & ", " &
+                           "Price: " & oldReader("price").ToString() & ", " &
+                           "Cost Price: " & oldReader("costprice").ToString()
+            End If
+            oldReader.Close()
 
             ' Process barcode image if checkbox is checked
             Dim barcodeImageBytes As Byte() = Nothing
@@ -138,47 +154,69 @@ Public Class frmproduct
                 imageBytes = File.ReadAllBytes(imagePath)
             End If
 
-            ' Update product record in the database
-            Using cmd As New SqlClient.SqlCommand("UPDATE tblproduct SET barcode=@barcode, item_des=@item_des, price=@price, costprice=@costprice, barcode_image=@barcode_image, imagepath=@imagepath, cid=@cid, uid=@uid WHERE id=@id", con)
-                cmd.Parameters.AddWithValue("@barcode", txtbarcode.Text.Trim())
-                cmd.Parameters.AddWithValue("@item_des", itemdes.Text.Trim())
-                cmd.Parameters.AddWithValue("@uid", If(String.IsNullOrWhiteSpace(unitid.Text) OrElse Not IsNumeric(unitid.Text), DBNull.Value, CInt(unitid.Text)))
-                cmd.Parameters.AddWithValue("@cid", If(String.IsNullOrWhiteSpace(lblclass.Text) OrElse Not IsNumeric(lblclass.Text), DBNull.Value, CInt(lblclass.Text)))
-
-                ' Convert sale price and cost price to Decimal
-                Dim salePrice As Decimal
-                If Decimal.TryParse(txtsales.Text.Replace("₱", "").Replace(",", "").Trim(), salePrice) Then
-                    cmd.Parameters.AddWithValue("@price", salePrice)
-                Else
-                    Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Error
-                    Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK
-                    Guna2MessageDialog1.Caption = "Input Error"
-                    Guna2MessageDialog1.Text = "Invalid sale price value. Please enter a valid number."
-                    Guna2MessageDialog1.Show()
-                    con.Close()
-                    Exit Sub
-                End If
-
-                Dim costPrice As Decimal
-                If Decimal.TryParse(txtcost.Text.Replace("₱", "").Replace(",", "").Trim(), costPrice) Then
-                    cmd.Parameters.AddWithValue("@costprice", costPrice)
-                Else
-                    Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Error
-                    Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK
-                    Guna2MessageDialog1.Caption = "Input Error"
-                    Guna2MessageDialog1.Text = "Invalid cost price value. Please enter a valid number."
-                    Guna2MessageDialog1.Show()
-                    con.Close()
-                    Exit Sub
-                End If
-
-                cmd.Parameters.Add("@barcode_image", SqlDbType.VarBinary).Value = If(barcodeImageBytes IsNot Nothing, barcodeImageBytes, DBNull.Value)
-                cmd.Parameters.Add("@imagepath", SqlDbType.VarBinary).Value = If(imageBytes IsNot Nothing, imageBytes, DBNull.Value)
-                cmd.Parameters.AddWithValue("@id", If(IsNumeric(lblid.Text), CInt(lblid.Text), DBNull.Value))
-                con.Open()
-                cmd.ExecuteNonQuery()
+            ' Convert price values safely
+            Dim salePrice As Decimal
+            If Not Decimal.TryParse(txtsales.Text.Replace("₱", "").Replace(",", "").Trim(), salePrice) Then
+                Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Error
+                Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK
+                Guna2MessageDialog1.Caption = "Input Error"
+                Guna2MessageDialog1.Text = "Invalid sale price value. Please enter a valid number."
+                Guna2MessageDialog1.Show()
                 con.Close()
-            End Using
+                Exit Sub
+            End If
+
+            Dim costPrice As Decimal
+            If Not Decimal.TryParse(txtcost.Text.Replace("₱", "").Replace(",", "").Trim(), costPrice) Then
+                Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Error
+                Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK
+                Guna2MessageDialog1.Caption = "Input Error"
+                Guna2MessageDialog1.Text = "Invalid cost price value. Please enter a valid number."
+                Guna2MessageDialog1.Show()
+                con.Close()
+                Exit Sub
+            End If
+
+            ' Update product
+            Dim updateQuery As String = "UPDATE tblproduct SET barcode=@barcode, item_des=@item_des, price=@price, costprice=@costprice, barcode_image=@barcode_image, imagepath=@imagepath, cid=@cid, uid=@uid WHERE id=@id"
+            Dim updateCmd As New SqlClient.SqlCommand(updateQuery, con)
+
+            With updateCmd
+                .Parameters.AddWithValue("@barcode", txtbarcode.Text.Trim())
+                .Parameters.AddWithValue("@item_des", itemdes.Text.Trim())
+                .Parameters.AddWithValue("@price", salePrice)
+                .Parameters.AddWithValue("@costprice", costPrice)
+                .Parameters.Add("@barcode_image", SqlDbType.VarBinary).Value = If(barcodeImageBytes IsNot Nothing, barcodeImageBytes, DBNull.Value)
+                .Parameters.Add("@imagepath", SqlDbType.VarBinary).Value = If(imageBytes IsNot Nothing, imageBytes, DBNull.Value)
+                .Parameters.AddWithValue("@cid", If(String.IsNullOrWhiteSpace(lblclass.Text), DBNull.Value, CInt(lblclass.Text)))
+                .Parameters.AddWithValue("@uid", If(String.IsNullOrWhiteSpace(unitid.Text), DBNull.Value, CInt(unitid.Text)))
+                .Parameters.AddWithValue("@id", If(IsNumeric(lblid.Text), CInt(lblid.Text), DBNull.Value))
+            End With
+
+            updateCmd.ExecuteNonQuery()
+
+            ' Construct the audit log query
+            Dim logQuery As String = "INSERT INTO AuditLog (UserID, Action, TableName, RecordID, OldValue, NewValue, Timestamp) " &
+                                     "VALUES (@UserID, @Action, @TableName, @RecordID, @OldValue, @NewValue, GETDATE())"
+
+            ' Prepare the command
+            Dim logCmd As New SqlClient.SqlCommand(logQuery, con)
+            logCmd.Parameters.AddWithValue("@UserID", GlobalUser.UserId) ' Ensure you have a GlobalUser object with the logged-in user
+            logCmd.Parameters.AddWithValue("@Action", "UPDATE")
+            logCmd.Parameters.AddWithValue("@TableName", "tblproduct") ' Table name should match actual database table
+            logCmd.Parameters.AddWithValue("@RecordID", lblid.Text) ' ID of the updated record
+
+            ' Convert new values to a formatted string for logging
+            Dim newValue As String = "Barcode: " & txtbarcode.Text & ", " &
+                                     "Description: " & itemdes.Text & ", " &
+                                     "Price: " & txtsales.Text & ", " &
+                                     "Cost Price: " & txtcost.Text
+
+            logCmd.Parameters.AddWithValue("@OldValue", oldValue)
+            logCmd.Parameters.AddWithValue("@NewValue", newValue)
+
+            ' Execute the audit log query
+            logCmd.ExecuteNonQuery()
 
             ' Success Message
             Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Information
@@ -190,16 +228,11 @@ Public Class frmproduct
             clear()
             frmproductlists.prodrecord()
         Catch ex As Exception
-            Guna2MessageDialog1.Icon = Guna.UI2.WinForms.MessageDialogIcon.Error
-            Guna2MessageDialog1.Buttons = Guna.UI2.WinForms.MessageDialogButtons.OK
-            Guna2MessageDialog1.Caption = "Error"
-            Guna2MessageDialog1.Text = "An error occurred: " & ex.Message
-            Guna2MessageDialog1.Show()
+            MessageBox.Show("Error: " & ex.Message)
         Finally
             con.Close()
         End Try
     End Sub
-
 
 
     Private Sub Guna2Button1_Click(sender As Object, e As EventArgs) Handles Guna2Button1.Click
@@ -602,27 +635,16 @@ Public Class frmproduct
 
 
 
-    Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
+Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         Try
             If Not IsNumeric(txtsales.Text) Or Not IsNumeric(txtcost.Text) Then
-                MsgBox("please enter valid numeric values for cost price and price.", vbExclamation)
+                MsgBox("Please enter valid numeric values for cost price and price.", vbExclamation)
                 Return
             End If
 
             If Walanglaman(txtbarcode) Then Return
             If Walanglaman(itemdes) Then Return
-            'If Walanglaman(brandcbx) Then Return
-            'If Walanglaman(gencbx) Then Return
-            'If Walanglaman(categorycbx) Then Return
-            'If Walanglaman(formucbx) Then Return
-            'If Walanglaman(dosagecbx) Then Return
             If Walanglaman(txtsales) Then Return
-            'If Walanglaman(unitcbx) Then Return
-
-            '' Ensure barcode is provided
-            'If String.IsNullOrWhiteSpace(txtbarcode.Text) Then
-            '    txtbarcode.Text = GenerateUniqueBarcode() ' Generate a unique barcode if none is provided
-            'End If
 
             ' Validate barcode format
             If txtbarcode.Text.Length <> 13 OrElse Not IsNumeric(txtbarcode.Text) Then
@@ -639,47 +661,35 @@ Public Class frmproduct
             ' Confirm save action
             If MsgBox("Are you sure you want to save this Product?", vbYesNo + vbQuestion) = MsgBoxResult.No Then Return
 
-
-
-
-            ' Process barcode image only if the checkbox is checked
+            ' Process barcode image if checkbox is checked
             Dim barcodeImageBytes As Byte() = Nothing
             If ckbarcode.Checked Then
-                ' Generate and save the barcode image
                 Dim Generator As New MessagingToolkit.Barcode.BarcodeEncoder
                 Dim barcodeImage As Bitmap = New Bitmap(Generator.Encode(MessagingToolkit.Barcode.BarcodeFormat.Code128, txtbarcode.Text))
-
-
-
-
-                ' Save barcode image to a specific path
-                Dim savePath As String = "C:\Users\danmi\OneDrive\Documents\Desktop\barcode product" ' Replace with your desired directory
-                If Not Directory.Exists(savePath) Then
-                    Directory.CreateDirectory(savePath) ' Create the directory if it doesn't exist
-                End If
+                Dim savePath As String = "C:\Users\danmi\OneDrive\Documents\Desktop\barcode product"
+                If Not Directory.Exists(savePath) Then Directory.CreateDirectory(savePath)
                 Dim barcodeImagePath As String = Path.Combine(savePath, txtbarcode.Text & ".png")
                 barcodeImage.Save(barcodeImagePath, System.Drawing.Imaging.ImageFormat.Png)
 
-
-
-                ' Convert the barcode image to byte array for database storage
+                ' Convert barcode image to byte array
                 Using ms As New MemoryStream()
                     barcodeImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png)
                     barcodeImageBytes = ms.ToArray()
                 End Using
             End If
 
-
-
-            ' Convert product image to byte array, or set to DBNull if imagePath is empty
+            ' Convert product image to byte array
             Dim imageBytes As Byte() = Nothing
             If Not String.IsNullOrEmpty(imagePath) Then
                 imageBytes = File.ReadAllBytes(imagePath)
             End If
 
-            ' Insert data into the database
+            ' Open database connection
             con.Open()
+
+            ' Insert query with OUTPUT to get ProductID
             Dim query As String = "INSERT INTO tblproduct (barcode, item_des, cid, price, costprice, barcode_image, imagepath, uid) " &
+                                  "OUTPUT INSERTED.id " &
                                   "VALUES (@barcode, @item_des, @cid, @price, @costprice, @barcode_image, @imagepath, @uid)"
             cmd = New SqlClient.SqlCommand(query, con)
 
@@ -689,10 +699,6 @@ Public Class frmproduct
                 .Parameters.AddWithValue("@item_des", itemdes.Text.Trim())
                 .Parameters.AddWithValue("@cid", If(String.IsNullOrWhiteSpace(lblclass.Text), DBNull.Value, CInt(lblclass.Text)))
 
-
-
-
-                ' Convert sale price and cost price to Decimal, removing any formatting
                 Dim salePrice As Decimal
                 If Decimal.TryParse(txtsales.Text.Replace("₱", "").Replace(",", "").Trim(), salePrice) Then
                     .Parameters.AddWithValue("@price", salePrice)
@@ -716,19 +722,29 @@ Public Class frmproduct
                 .Parameters.AddWithValue("@uid", If(String.IsNullOrWhiteSpace(unitid.Text), DBNull.Value, CInt(unitid.Text)))
             End With
 
-            cmd.ExecuteNonQuery()
-            MsgBox("Record has been successfully saved.", vbInformation)
-            txtbarcode.Refresh()
+            ' Execute query and get new Product ID
+            Dim newProductID As Integer = CInt(cmd.ExecuteScalar())
+
+            ' Close connection
             con.Close()
 
+            ' Get UserID from GlobalUser class
+            Dim userID As String = GlobalUser.UserId
+
+            ' Audit Logging
+            Dim newValues As String = "Barcode: " & txtbarcode.Text & ", " &
+                                      "Item: " & itemdes.Text & ", " &
+                                      "Price: " & txtsales.ToString() & ", " &
+                                      "Cost: " & txtcost.ToString()
+            LogAudit(userID, "INSERT", "Table Product", newProductID.ToString(), "", newValues)
+
+            MsgBox("Record has been successfully saved.", vbInformation)
+            txtbarcode.Refresh()
             clear()
+
             With frmproductlists
                 .prodrecord()
             End With
-            'Me.Close()
-
-
-
 
         Catch ex As Exception
             MsgBox("Error: " & ex.Message, vbCritical)

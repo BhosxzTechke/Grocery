@@ -26,6 +26,8 @@ Partial Class dashboard
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(dashboard))
         Me.Guna2BorderlessForm1 = New Guna.UI2.WinForms.Guna2BorderlessForm(Me.components)
         Me.Guna2CustomGradientPanel1 = New Guna.UI2.WinForms.Guna2CustomGradientPanel()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
         Me.btnsettings = New System.Windows.Forms.Button()
         Me.lbluser = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -47,6 +49,7 @@ Partial Class dashboard
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Guna2ShadowPanel1 = New Guna.UI2.WinForms.Guna2ShadowPanel()
         Me.Timer5 = New System.Windows.Forms.Timer(Me.components)
+        Me.Button8 = New System.Windows.Forms.Button()
         Me.Guna2CustomGradientPanel1.SuspendLayout()
         CType(Me.userpic, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Guna2ContextMenuStrip1.SuspendLayout()
@@ -65,6 +68,9 @@ Partial Class dashboard
         Me.Guna2CustomGradientPanel1.BackgroundImage = CType(resources.GetObject("Guna2CustomGradientPanel1.BackgroundImage"), System.Drawing.Image)
         Me.Guna2CustomGradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Guna2CustomGradientPanel1.BorderRadius = 2
+        Me.Guna2CustomGradientPanel1.Controls.Add(Me.Button8)
+        Me.Guna2CustomGradientPanel1.Controls.Add(Me.Button5)
+        Me.Guna2CustomGradientPanel1.Controls.Add(Me.Button4)
         Me.Guna2CustomGradientPanel1.Controls.Add(Me.btnsettings)
         Me.Guna2CustomGradientPanel1.Controls.Add(Me.lbluser)
         Me.Guna2CustomGradientPanel1.Controls.Add(Me.Label1)
@@ -89,6 +95,30 @@ Partial Class dashboard
         Me.Guna2CustomGradientPanel1.Name = "Guna2CustomGradientPanel1"
         Me.Guna2CustomGradientPanel1.Size = New System.Drawing.Size(261, 874)
         Me.Guna2CustomGradientPanel1.TabIndex = 0
+        '
+        'Button5
+        '
+        Me.Button5.Location = New System.Drawing.Point(58, 294)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(75, 23)
+        Me.Button5.TabIndex = 48
+        Me.Button5.Text = "Button5"
+        Me.Button5.UseVisualStyleBackColor = True
+        '
+        'Button4
+        '
+        Me.Button4.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button4.FlatAppearance.BorderSize = 0
+        Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button4.Font = New System.Drawing.Font("Century Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button4.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.Button4.Location = New System.Drawing.Point(7, 832)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(242, 42)
+        Me.Button4.TabIndex = 47
+        Me.Button4.Text = "   Auditing"
+        Me.Button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button4.UseVisualStyleBackColor = True
         '
         'btnsettings
         '
@@ -396,6 +426,15 @@ Partial Class dashboard
         'Timer5
         '
         '
+        'Button8
+        '
+        Me.Button8.Location = New System.Drawing.Point(59, 350)
+        Me.Button8.Name = "Button8"
+        Me.Button8.Size = New System.Drawing.Size(75, 23)
+        Me.Button8.TabIndex = 47
+        Me.Button8.Text = "Button8"
+        Me.Button8.UseVisualStyleBackColor = True
+        '
         'dashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -440,4 +479,7 @@ Partial Class dashboard
     Friend WithEvents userpic As Guna.UI2.WinForms.Guna2CirclePictureBox
     Friend WithEvents Guna2ShadowPanel1 As Guna.UI2.WinForms.Guna2ShadowPanel
     Friend WithEvents btnsettings As System.Windows.Forms.Button
+    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents Button8 As System.Windows.Forms.Button
 End Class

@@ -26,6 +26,7 @@ Partial Class frmproduct
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmproduct))
         Me.Guna2BorderlessForm1 = New Guna.UI2.WinForms.Guna2BorderlessForm(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Guna2Button2 = New Guna.UI2.WinForms.Guna2Button()
         Me.categorycbx = New System.Windows.Forms.ComboBox()
         Me.txtcost = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -34,6 +35,7 @@ Partial Class frmproduct
         Me.txtsales = New Guna.UI2.WinForms.Guna2TextBox()
         Me.unitcbx = New System.Windows.Forms.ComboBox()
         Me.txtbarcode = New System.Windows.Forms.TextBox()
+        Me.picbarcode = New System.Windows.Forms.PictureBox()
         Me.unitid = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -41,6 +43,7 @@ Partial Class frmproduct
         Me.labelprice = New System.Windows.Forms.Label()
         Me.Guna2Button1 = New Guna.UI2.WinForms.Guna2Button()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.labelcateg = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblid = New System.Windows.Forms.Label()
@@ -49,9 +52,6 @@ Partial Class frmproduct
         Me.btnsave = New Guna.UI2.WinForms.Guna2Button()
         Me.btnupdate = New Guna.UI2.WinForms.Guna2Button()
         Me.Guna2MessageDialog1 = New Guna.UI2.WinForms.Guna2MessageDialog()
-        Me.picbarcode = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.Guna2Button2 = New Guna.UI2.WinForms.Guna2Button()
         Me.Panel1.SuspendLayout()
         CType(Me.picbarcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,8 +95,25 @@ Partial Class frmproduct
         Me.Panel1.Controls.Add(Me.btnupdate)
         Me.Panel1.Location = New System.Drawing.Point(0, 1)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(898, 559)
+        Me.Panel1.Size = New System.Drawing.Size(898, 636)
         Me.Panel1.TabIndex = 0
+        '
+        'Guna2Button2
+        '
+        Me.Guna2Button2.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2Button2.BackgroundImage = CType(resources.GetObject("Guna2Button2.BackgroundImage"), System.Drawing.Image)
+        Me.Guna2Button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Guna2Button2.DisabledState.BorderColor = System.Drawing.Color.DarkGray
+        Me.Guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
+        Me.Guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
+        Me.Guna2Button2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
+        Me.Guna2Button2.FillColor = System.Drawing.Color.Transparent
+        Me.Guna2Button2.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.Guna2Button2.ForeColor = System.Drawing.Color.Transparent
+        Me.Guna2Button2.Location = New System.Drawing.Point(861, 1)
+        Me.Guna2Button2.Name = "Guna2Button2"
+        Me.Guna2Button2.Size = New System.Drawing.Size(34, 26)
+        Me.Guna2Button2.TabIndex = 98
         '
         'categorycbx
         '
@@ -154,13 +171,14 @@ Partial Class frmproduct
         'ckbarcode
         '
         Me.ckbarcode.AutoSize = True
+        Me.ckbarcode.BackColor = System.Drawing.Color.Transparent
         Me.ckbarcode.ForeColor = System.Drawing.Color.Black
-        Me.ckbarcode.Location = New System.Drawing.Point(560, 25)
+        Me.ckbarcode.Location = New System.Drawing.Point(205, 607)
         Me.ckbarcode.Name = "ckbarcode"
         Me.ckbarcode.Size = New System.Drawing.Size(178, 22)
         Me.ckbarcode.TabIndex = 91
         Me.ckbarcode.Text = "Saving Barcode Image"
-        Me.ckbarcode.UseVisualStyleBackColor = True
+        Me.ckbarcode.UseVisualStyleBackColor = False
         '
         'txtsales
         '
@@ -199,6 +217,16 @@ Partial Class frmproduct
         Me.txtbarcode.Name = "txtbarcode"
         Me.txtbarcode.Size = New System.Drawing.Size(346, 24)
         Me.txtbarcode.TabIndex = 75
+        '
+        'picbarcode
+        '
+        Me.picbarcode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.picbarcode.Location = New System.Drawing.Point(156, 441)
+        Me.picbarcode.Name = "picbarcode"
+        Me.picbarcode.Size = New System.Drawing.Size(308, 160)
+        Me.picbarcode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.picbarcode.TabIndex = 74
+        Me.picbarcode.TabStop = False
         '
         'unitid
         '
@@ -296,6 +324,16 @@ Partial Class frmproduct
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Product Entry"
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.PictureBox1.Location = New System.Drawing.Point(560, 219)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(308, 212)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 65
+        Me.PictureBox1.TabStop = False
+        '
         'labelcateg
         '
         Me.labelcateg.AutoSize = True
@@ -329,7 +367,6 @@ Partial Class frmproduct
         Me.lblid.Name = "lblid"
         Me.lblid.Size = New System.Drawing.Size(0, 18)
         Me.lblid.TabIndex = 20
-        Me.lblid.Visible = False
         '
         'lblbarcode
         '
@@ -390,50 +427,12 @@ Partial Class frmproduct
         Me.Guna2MessageDialog1.Style = Guna.UI2.WinForms.MessageDialogStyle.[Default]
         Me.Guna2MessageDialog1.Text = Nothing
         '
-        'picbarcode
-        '
-        Me.picbarcode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.picbarcode.Location = New System.Drawing.Point(560, 53)
-        Me.picbarcode.Name = "picbarcode"
-        Me.picbarcode.Size = New System.Drawing.Size(308, 160)
-        Me.picbarcode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.picbarcode.TabIndex = 74
-        Me.picbarcode.TabStop = False
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(560, 219)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(308, 212)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 65
-        Me.PictureBox1.TabStop = False
-        '
-        'Guna2Button2
-        '
-        Me.Guna2Button2.BackColor = System.Drawing.Color.Transparent
-        Me.Guna2Button2.BackgroundImage = CType(resources.GetObject("Guna2Button2.BackgroundImage"), System.Drawing.Image)
-        Me.Guna2Button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Guna2Button2.DisabledState.BorderColor = System.Drawing.Color.DarkGray
-        Me.Guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
-        Me.Guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
-        Me.Guna2Button2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
-        Me.Guna2Button2.FillColor = System.Drawing.Color.Transparent
-        Me.Guna2Button2.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.Guna2Button2.ForeColor = System.Drawing.Color.Transparent
-        Me.Guna2Button2.Location = New System.Drawing.Point(861, 1)
-        Me.Guna2Button2.Name = "Guna2Button2"
-        Me.Guna2Button2.Size = New System.Drawing.Size(34, 26)
-        Me.Guna2Button2.TabIndex = 98
-        '
         'frmproduct
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Teal
-        Me.ClientSize = New System.Drawing.Size(898, 559)
+        Me.ClientSize = New System.Drawing.Size(898, 636)
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
